@@ -1,3 +1,4 @@
+repo: https://github.com/CanonicalLtd/serial-vault-selfhosted.git
 includes:
   - layer:basic
   - layer:apt
