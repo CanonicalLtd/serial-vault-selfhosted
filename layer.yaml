@@ -5,6 +5,9 @@ includes:
   - layer:nagios
   - interface:pgsql
   - interface:http
+install_sources: |
+  - ppa:snappy-hwe-team/nightly
+  - deb http://ppa.launchpad.net/snappy-hwe-team/nightly/ubuntu xenial main
 options:
   basic:
     packages:
@@ -12,6 +15,4 @@ options:
   apt:
     packages:
       - serial-vault
-  install_sources: |
-    - ppa:snappy-hwe-team/nightly
-    - deb http://ppa.launchpad.net/snappy-hwe-team/nightly/ubuntu xenial main
+
