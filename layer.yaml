@@ -1,0 +1,16 @@
+includes:
+  - layer:basic
+  - layer:apt
+  - layer:nagios
+  - interface:pgsql
+  - interface:http
+options:
+  basic:
+    packages:
+      - serial-vault
+  apt:
+    packages:
+      - serial-vault
+  install_sources: |
+    - ppa:snappy-hwe-team/nightly
+    - deb http://ppa.launchpad.net/snappy-hwe-team/nightly/ubuntu xenial main

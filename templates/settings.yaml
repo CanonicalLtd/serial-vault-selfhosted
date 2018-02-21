@@ -1,0 +1,29 @@
+title: "Serial Vault"
+logo: "/static/images/logo-ubuntu-white.svg"
+
+# Path to the assets (${docRoot}/static)
+docRoot: {{ docRoot }}
+
+# Service type: signing or admin
+mode: {{ service_type }}
+
+# Backend database details
+driver: "postgres"
+datasource: "dbname={{ db.database }} host={{ db.host }} port={{ db.port }} user={{ db.user }} password={{ db.password}}"
+
+# For Database Keystore
+keystore: "database"
+keystoreSecret: "{{ keystore_secret }}"
+
+# 64 bytes long, base64 encoded key to protect server from cross site request forgery attacks
+csrfAuthKey: "{{ csrf_auth_key }}"
+
+# Return URL of the service (needed for OpenID)
+urlHost: "{{ url_host }}"
+urlScheme: https
+
+# Enable user authentication using Ubuntu SSO
+enableUserAuth: {{ enable_user_auth }}
+
+# 64 bytes long key to digitally sign exchanged info with USSO
+jwtSecret: {{ jwt_secret }}

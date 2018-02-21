@@ -1,0 +1,49 @@
+options:
+  service_type:
+    type: string
+    default: signing
+    description: Which service to run - signing or admin
+  keystore_secret:
+    type: string
+    default: abcdefg1234567890
+    description: Secret code to encrypt the auth-key hash
+  csrf_auth_key:
+    type: string
+    default: "2E6ZYnVYUfDLRLV/ne8M6v1jyB/376BL9ORnN3Kgb04uSFalr2ygReVsOt0PaGEIRuID10TePBje5xdjIOEjQQ=="
+    description: 64 bytes long, base64 encoded key to protect server from cross site request forgery attacks
+  environment_variables:
+    type: string
+    default: ""
+    description: Blank separated key=value strings representing env vars
+  url_host:
+    type: string
+    default: serial-vault:443
+    description: Return URL of the service (needed for OpenID) without the protocol schema
+  enable_user_auth:
+    type: boolean
+    default: true
+    description: Enable user authentication using Ubuntu SSO
+  jwt_secret:
+    type: string
+    default: "kich9KamaigeiQuiZee9uogeojahRe9Noh8aemu6Noh7chie6ool5umo6iki0Phe"
+    description: "64 bytes long key to digitally sign exchanged info with USSO" 
+  nagios_context:
+    default: "juju"
+    type: string
+    description: |
+        Used by the nrpe-external-master subordinate charm.
+        A string that will be prepended to instance name to set the host name
+        in nagios. So for instance the hostname would be something like:
+            juju-postgresql-0
+        If you're running multiple environments with the same services in them
+        this allows you to differentiate between them.
+  nagios_servicegroups:
+    default: ""
+    type: string
+    description: |
+        A comma-separated list of nagios servicegroups.
+        If left empty, the nagios_context will be used as the servicegroup
+  nagios_check_http_params:
+     default: ""
+     type: string
+     description: The parameters to pass to the nrpe plugin check_http.
