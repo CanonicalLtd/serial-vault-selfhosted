@@ -47,3 +47,5 @@ options:
      default: ""
      type: string
      description: The parameters to pass to the nrpe plugin check_http.
+  install_sources:
+     default: '[ "ppa:snappy-hwe-team/nightly" ]'
