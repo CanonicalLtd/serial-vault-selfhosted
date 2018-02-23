@@ -20,7 +20,7 @@ csrfAuthKey: "{{ csrf_auth_key }}"
 
 # Return URL of the service (needed for OpenID)
 urlHost: "{{ url_host }}"
-urlScheme: https
+urlScheme: "{{ url_scheme }}"
 
 # Enable user authentication using Ubuntu SSO
 enableUserAuth: {{ enable_user_auth }}

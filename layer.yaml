@@ -6,6 +6,8 @@ includes:
   - interface:pgsql
   - interface:http
 options:
-  apt:
+  basic:
     packages:
-      - serial-vault
+      - golang-go
+      - git
+      - bzr

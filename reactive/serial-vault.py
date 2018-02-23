@@ -56,7 +56,8 @@ def install():
     # Open the relevant port for the service
     open_port()
 
-    # Installation of the deb package should happen automatically by the layer
+    # Build and deploy the application
+    build_from_source()
 
     # Don't start until having db connection
     enable_service()
@@ -89,8 +90,8 @@ def config_changed():
     # Update the config file with the service_type and database settings
     update_config(database)
 
-    # Refresh the service and restart the service
-    refresh_service()
+    # Restart the service
+    restart_service()
 
     hookenv.status_set('active', '')
     set_state(ACTIVE)
@@ -144,9 +145,13 @@ def update_nrpe_checks(*args):
 def refresh_service():
     hookenv.status_set('maintenance', 'Refresh the service')
 
-    # Update the apt packages and upgrade the serial-vault
+    # Update the apt packages
     charms.apt.update()
-    apt_upgrade(options=[PROJECT])
+
+    # Need to stop the service to be able to update it
+    stop_service()
+
+    build_from_source()
 
     restart_service()
 
@@ -219,6 +224,7 @@ def create_settings(postgres):
             'csrf_auth_key': config['csrf_auth_key'],
             'db': postgres,
             'url_host': config['url_host'],
+            'url_scheme': config['url_scheme'],
             'enable_user_auth': bool(config['enable_user_auth']),
             'jwt_secret': config['jwt_secret'],
         }
@@ -244,6 +250,10 @@ def enable_service():
 
 def restart_service():
     host.service_restart(SERVICE)
+
+
+def stop_service():
+    host.service_stop(SERVICE)
 
 
 def reload_systemd():
@@ -274,3 +284,14 @@ def dequote(s):
     ):
         s = s[1:-1]
     return s
+
+
+def build_from_source():
+    """
+    Set up the Go environment and build the code from source.
+    """
+    hookenv.status_set('maintenance', 'Building application')
+
+    check_call(['sh', './scripts/install.sh'])
+
+    hookenv.status_set('maintenance', 'Installation complete')

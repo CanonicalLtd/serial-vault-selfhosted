@@ -18,7 +18,11 @@ options:
   url_host:
     type: string
     default: serial-vault:443
-    description: Return URL of the service (needed for OpenID) without the protocol schema
+    description: Return URL of the service (needed for OpenID) without the protocol scheme
+  url_scheme:
+    type: string
+    default: https
+    description: Protocol scheme of the return URL of the service (needed for OpenID)
   enable_user_auth:
     type: boolean
     default: true
@@ -47,5 +51,3 @@ options:
      default: ""
      type: string
      description: The parameters to pass to the nrpe plugin check_http.
-  install_sources:
-     default: '[ "ppa:snappy-hwe-team/nightly" ]'
