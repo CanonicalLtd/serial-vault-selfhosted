@@ -43,6 +43,8 @@ DATABASE_NAME = 'serialvault'
 
 CONFDIR = '/etc/{}'.format(PROJECT)
 ASSETSDIR = '/usr/share/{}'.format(PROJECT)
+ADMIN_CMD = '{}-admin'.format(PROJECT)
+
 
 @hook("install")
 def install():
@@ -177,6 +179,9 @@ def update_config(database):
     # Create the configuration file for the service in CONFDIR path
     create_settings(database)
 
+    # Add the superusers to the system
+    add_superusers()
+
     # Start the service
     start_service()
 
@@ -241,10 +246,6 @@ def open_port():
             hookenv.close_port(port, protocol='TCP')
 
 
-def disable_service():
-    host.service('disable', SERVICE)
-
-
 def enable_service():
     host.service('enable', SERVICE)
 
@@ -261,8 +262,17 @@ def stop_service():
     host.service_stop(SERVICE)
 
 
-def reload_systemd():
-    check_call(['systemctl', 'daemon-reload'])
+def add_superusers():
+    config = hookenv.config()
+
+    for u in config['superusers'].split(","):
+        try:
+            u = u.strip()
+            check_call([
+                ADMIN_CMD, 'user', 'add', u,
+                '-n', u, '-r', 'superuser', '-e', '{}@example.com'.format(u)])
+        except Exception:
+            pass
 
 
 def update_env():

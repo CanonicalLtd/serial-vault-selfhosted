@@ -38,6 +38,14 @@ options:
         The tagged release in the git source repository.
         Changing this setting on a deployed service will need 'upgrade-charm' to
         be re-run, to trigger and application rebuild.
+  superusers:
+    type: string
+    default: ""
+    description:
+        A comma-separated list of usernames for the default superusers.
+        The username must be the SSO username, which will enable the users to
+        login and access the admin interface as superusers. Additional users
+        can be added through the admin interface.
   nagios_context:
     default: "juju"
     type: string
