@@ -31,6 +31,13 @@ options:
     type: string
     default: "kich9KamaigeiQuiZee9uogeojahRe9Noh8aemu6Noh7chie6ool5umo6iki0Phe"
     description: "64 bytes long key to digitally sign exchanged info with USSO" 
+  tagged_release:
+    type: string
+    default: "2.1-0"
+    description: |
+        The tagged release in the git source repository.
+        Changing this setting on a deployed service will need 'upgrade-charm' to
+        be re-run, to trigger and application rebuild.
   nagios_context:
     default: "juju"
     type: string
