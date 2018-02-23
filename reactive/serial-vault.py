@@ -35,7 +35,7 @@ PORTS = {
 }
 
 PROJECT = 'serial-vault'
-SERVICE = '{}'.format(PROJECT)
+SERVICE = '{}.service'.format(PROJECT)
 AVAILABLE = '{}.available'.format(PROJECT)
 ACTIVE = '{}.active'.format(PROJECT)
 
@@ -153,10 +153,7 @@ def refresh_service():
 
     build_from_source()
 
-    restart_service()
-
-    hookenv.status_set('active', '')
-    set_state(ACTIVE)
+    hookenv.status_set('maintenance', 'Waiting for restart')
 
 
 def configure_service():
@@ -180,8 +177,8 @@ def update_config(database):
     # Create the configuration file for the service in CONFDIR path
     create_settings(database)
 
-    # Restart the service
-    restart_service()
+    # Start the service
+    start_service()
 
     hookenv.status_set('active', '')
     set_state(ACTIVE)
@@ -244,8 +241,16 @@ def open_port():
             hookenv.close_port(port, protocol='TCP')
 
 
+def disable_service():
+    host.service('disable', SERVICE)
+
+
 def enable_service():
     host.service('enable', SERVICE)
+
+
+def start_service():
+    host.service_start(SERVICE)
 
 
 def restart_service():
@@ -291,7 +296,8 @@ def build_from_source():
     Set up the Go environment and build the code from source.
     """
     hookenv.status_set('maintenance', 'Building application')
+    config = hookenv.config()
 
-    check_call(['sh', './scripts/install.sh'])
+    check_call(['sh', './scripts/install.sh', config['tagged_release']])
 
     hookenv.status_set('maintenance', 'Installation complete')

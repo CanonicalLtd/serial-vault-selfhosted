@@ -25,6 +25,12 @@ cd ${GOPATH}/src/${PROJECT_PATH}
 git clone ${REPO}
 cd ${PROJECT}
 
+# Checkout tagged release if requested
+if [ -n "$1" ]; then
+    echo Checkout tagged release $1
+    git checkout tags/$1
+fi
+
 echo Get the dependencies
 go get launchpad.net/godeps
 export PATH=$PATH:$GOPATH/bin
@@ -50,5 +56,8 @@ sed -i 's/{{[ ]*bindir[ ]*}}/\/usr\/lib\/serial-vault/g' ${BIN_DIR}/serial-vault
 sed -i 's/{{[ ]*bindir[ ]*}}/\/usr\/lib\/serial-vault/g' ${BIN_DIR}/serial-vault-admin
 sed -i 's/{{[ ]*confdir[ ]*}}/\/etc\/serial-vault/g' ${BIN_DIR}/serial-vault
 sed -i 's/{{[ ]*confdir[ ]*}}/\/etc\/serial-vault/g' ${BIN_DIR}/serial-vault-admin
+
+echo Restart the daemon for good measure
+systemctl daemon-reload
 
 exit 0
