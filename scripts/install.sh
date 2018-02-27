@@ -32,9 +32,8 @@ if [ -n "$1" ]; then
 fi
 
 echo Get the dependencies
-go get launchpad.net/godeps
 export PATH=$PATH:$GOPATH/bin
-godeps -u dependencies.tsv
+./get-deps.sh
 
 echo Build the application
 go install -v ./...
