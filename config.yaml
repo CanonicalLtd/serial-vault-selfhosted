@@ -33,7 +33,7 @@ options:
     description: "64 bytes long key to digitally sign exchanged info with USSO" 
   tagged_release:
     type: string
-    default: "2.1-0"
+    default: "2.1-1"
     description: |
         The tagged release in the git source repository.
         Changing this setting on a deployed service will need 'upgrade-charm' to
