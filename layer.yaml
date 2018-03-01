@@ -11,3 +11,4 @@ options:
       - golang-go
       - git
       - bzr
+      - rng-tools
