@@ -58,6 +58,9 @@ def install():
     # Open the relevant port for the service
     open_port()
 
+    # Use rngd to speed up key generation
+    initialize_rngd()
+
     # Build and deploy the application
     build_from_source()
 
@@ -311,3 +314,11 @@ def build_from_source():
     check_call(['sh', './scripts/install.sh', config['tagged_release']])
 
     hookenv.status_set('maintenance', 'Installation complete')
+
+
+def initialize_rngd():
+    """
+    Use rngd to feed random data to the kernel. This speeds up signing key
+    generation in snapd (from tens of minutes to seconds)
+    """
+    check_call(['rngd', '-r', '/dev/urandom'])
